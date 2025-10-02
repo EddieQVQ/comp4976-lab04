@@ -16,10 +16,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(
 
 var app = builder.Build();
 
-// Configure MCP routes on root path
-app.MapMcp();
-
-// Add a simple web page for browsers
+// Add a simple web page for browsers FIRST (before MCP routes)
 app.MapGet("/", () => Results.Content(@"
 <!DOCTYPE html>
 <html>
@@ -90,6 +87,9 @@ app.MapGet("/", () => Results.Content(@"
     </div>
 </body>
 </html>", "text/html"));
+
+// Configure MCP routes on /mcp path to avoid conflicts
+app.MapMcp("/mcp");
 
 
 using (var scope = app.Services.CreateScope()) {
