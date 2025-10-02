@@ -16,7 +16,10 @@ builder.Services.AddDbContext<ApplicationDbContext>(
 
 var app = builder.Build();
 
-// Add a simple web page for browsers FIRST (before MCP routes)
+// Configure MCP routes on /api path to avoid conflicts  
+app.MapMcp("/api");
+
+// Add a simple web page for browsers
 app.MapGet("/", () => Results.Content(@"
 <!DOCTYPE html>
 <html>
@@ -72,7 +75,7 @@ app.MapGet("/", () => Results.Content(@"
             <h2>🌐 MCP Endpoint</h2>
             <div class='endpoint'>
                 <strong>Protocol:</strong> Model Context Protocol (MCP)<br>
-                <strong>URL:</strong> <span class='code'>https://4537-lab04-bja2fjhyfeeydka7.canadacentral-01.azurewebsites.net</span><br>
+                <strong>URL:</strong> <span class='code'>https://4537-lab04-bja2fjhyfeeydka7.canadacentral-01.azurewebsites.net/api</span><br>
                 <strong>Method:</strong> POST<br>
                 <strong>Content-Type:</strong> application/json<br>
                 <strong>Required Header:</strong> Mcp-Session-Id
@@ -88,8 +91,6 @@ app.MapGet("/", () => Results.Content(@"
 </body>
 </html>", "text/html"));
 
-// Configure MCP routes on /mcp path to avoid conflicts
-app.MapMcp("/mcp");
 
 
 using (var scope = app.Services.CreateScope()) {
