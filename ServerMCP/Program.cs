@@ -18,6 +18,10 @@ var app = builder.Build();
 
 app.MapMcp();
 
+// Add a simple health check endpoint
+app.MapGet("/", () => "ServerMCP is running! MCP Protocol available.");
+app.MapGet("/health", () => new { status = "healthy", service = "ServerMCP", timestamp = DateTime.UtcNow });
+
 
 using (var scope = app.Services.CreateScope()) {
     var services = scope.ServiceProvider;
