@@ -1,0 +1,122 @@
+@page
+@model RazorMCP.Pages.BeveragesModel
+@{
+    ViewData["Title"] = "Beverages - MCP Client";
+}
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h1 class="display-4">🍹 Beverages Database</h1>
+                <small class="text-muted">Powered by MCP Server</small>
+            </div>
+
+            <!-- Search Form -->
+            <div class="card mb-4">
+                <div class="card-body">
+                    <form method="get" class="row g-3">
+                        <div class="col-md-4">
+                            <label for="searchName" class="form-label">Search by Name</label>
+                            <input type="text" class="form-control" id="searchName" name="searchName" 
+                                   value="@Model.SearchName" placeholder="Enter beverage name...">
+                        </div>
+                        <div class="col-md-4">
+                            <label for="filterType" class="form-label">Filter by Type</label>
+                            <select class="form-select" id="filterType" name="filterType">
+                                <option value="">All Types</option>
+                                <option value="Coffee" selected="@(Model.FilterType == "Coffee")">Coffee</option>
+                                <option value="Tea" selected="@(Model.FilterType == "Tea")">Tea</option>
+                                <option value="Soft Drink" selected="@(Model.FilterType == "Soft Drink")">Soft Drink</option>
+                                <option value="Cocktail" selected="@(Model.FilterType == "Cocktail")">Cocktail</option>
+                                <option value="Alcoholic Drink" selected="@(Model.FilterType == "Alcoholic Drink")">Alcoholic Drink</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4 d-flex align-items-end">
+                            <button type="submit" class="btn btn-primary me-2">🔍 Search</button>
+                            <a href="/beverages" class="btn btn-outline-secondary">Clear</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Results -->
+            @if (Model.Beverages?.Any() == true)
+            {
+                <div class="alert alert-info">
+                    <i class="bi bi-info-circle"></i> Found <strong>@Model.Beverages.Count</strong> beverage(s)
+                </div>
+
+                <div class="row">
+                    @foreach (var beverage in Model.Beverages)
+                    {
+                        <div class="col-lg-4 col-md-6 mb-4">
+                            <div class="card h-100 shadow-sm">
+                                <div class="card-header bg-primary text-white">
+                                    <h5 class="card-title mb-0">@beverage.Name</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row g-2">
+                                        <div class="col-6">
+                                            <strong>Type:</strong><br>
+                                            <span class="badge bg-secondary">@beverage.Type</span>
+                                        </div>
+                                        <div class="col-6">
+                                            <strong>Origin:</strong><br>
+                                            <span class="text-muted">@beverage.Origin</span>
+                                        </div>
+                                        <div class="col-12 mt-2">
+                                            <strong>Main Ingredient:</strong><br>
+                                            <span class="text-info">@beverage.MainIngredient</span>
+                                        </div>
+                                        <div class="col-12 mt-2">
+                                            <strong>Calories per Serving:</strong><br>
+                                            <span class="badge @(beverage.CaloriesPerServing <= 50 ? "bg-success" : 
+                                                                beverage.CaloriesPerServing <= 150 ? "bg-warning" : "bg-danger")">
+                                                @beverage.CaloriesPerServing cal
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-footer text-muted">
+                                    <small>ID: @beverage.BeverageId</small>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+            else
+            {
+                <div class="alert alert-warning">
+                    <i class="bi bi-exclamation-triangle"></i> 
+                    @if (!string.IsNullOrEmpty(Model.SearchName) || !string.IsNullOrEmpty(Model.FilterType))
+                    {
+                        <text>No beverages found matching your search criteria.</text>
+                    }
+                    else
+                    {
+                        <text>No beverages available or unable to connect to MCP server.</text>
+                    }
+                </div>
+            }
+
+            <!-- Connection Status -->
+            <div class="mt-4">
+                <small class="text-muted">
+                    <i class="bi bi-server"></i> MCP Server: 
+                    <code>https://bevmcp.azurewebsites.net/sse</code>
+                </small>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Auto-submit form when type filter changes
+        document.getElementById('filterType').addEventListener('change', function() {
+            this.form.submit();
+        });
+    </script>
+}

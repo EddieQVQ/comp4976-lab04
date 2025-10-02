@@ -1,10 +1,62 @@
 ﻿@page
 @model IndexModel
 @{
-    ViewData["Title"] = "Home page";
+    ViewData["Title"] = "MCP Razor Client";
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h1 class="display-4">🍹 MCP Razor Client</h1>
+    <p class="lead">ASP.NET Razor Pages client connecting to Model Context Protocol server</p>
+    
+    <div class="row justify-content-center mt-5">
+        <div class="col-md-8">
+            <div class="card shadow-lg">
+                <div class="card-body p-5">
+                    <h3 class="card-title text-primary mb-4">
+                        <i class="bi bi-cup-hot"></i> Beverage Database
+                    </h3>
+                    <p class="card-text mb-4">
+                        Explore our comprehensive beverage database powered by a Model Context Protocol server. 
+                        Search through various types of beverages, filter by categories, and discover detailed information 
+                        about each drink including ingredients, origins, and nutritional data.
+                    </p>
+                    <div class="d-grid gap-2">
+                        <a href="/beverages" class="btn btn-primary btn-lg">
+                            <i class="bi bi-search"></i> Browse Beverages
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-5">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body text-center">
+                    <i class="bi bi-server display-6 text-primary"></i>
+                    <h5 class="mt-3">MCP Protocol</h5>
+                    <p class="text-muted">Uses Model Context Protocol for seamless data communication</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body text-center">
+                    <i class="bi bi-search display-6 text-success"></i>
+                    <h5 class="mt-3">Smart Search</h5>
+                    <p class="text-muted">Search by name, filter by type, and find exactly what you need</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body text-center">
+                    <i class="bi bi-info-circle display-6 text-info"></i>
+                    <h5 class="mt-3">Detailed Info</h5>
+                    <p class="text-muted">Complete beverage information including calories, ingredients, and origins</p>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
